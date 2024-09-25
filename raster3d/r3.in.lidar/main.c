@@ -136,6 +136,30 @@ void binning_add_point(struct PointBinning3D *binning, int row, int col,
     }
 }
 
+static void cell_head_init(struct Cell_head *region)
+{
+    region->format = -1;
+    region->compressed = 0;
+    region->rows = 0;
+    region->rows3 = 0;
+    region->cols = 0;
+    region->cols3 = 0;
+    region->depths = 0;
+    region->proj = 0;
+    region->zone = 0;
+    region->ew_res = 0.0;
+    region->ew_res3 = 0.0;
+    region->ns_res = 0.0;
+    region->ns_res3 = 0.0;
+    region->tb_res = 0.0;
+    region->north = 0.0;
+    region->south = 0.0;
+    region->east = 0.0;
+    region->west = 0.0;
+    region->top = 0.0;
+    region->bottom = 0.0;
+}
+
 int main(int argc, char *argv[])
 {
     struct GModule *module;
@@ -364,10 +388,12 @@ int main(int argc, char *argv[])
     struct Cell_head current_region;
     struct Cell_head file_region;
 
+    cell_head_init(&file_region);
     G_get_set_window(&current_region);
 
     /* extent for all data */
     struct Cell_head data_region;
+    cell_head_init(&data_region);
 
     long unsigned header_count = 0;
     int i;
